@@ -20,7 +20,7 @@ class BarangController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->user()->role !== 'admin') {
+        if (!in_array($request->user()->role, ['admin', 'pegawai'])) {
             return response(['message' => 'Forbidden'], 403);
         }
 
@@ -29,7 +29,7 @@ class BarangController extends Controller
             'deskripsi' => 'nullable|string',
             'stok' => 'required|integer',
             'harga' => 'required|numeric',
-            'kategori_barang_id' => 'required|exists:kategori_barang,id',
+            'kategori_barang_id' => 'required|exists:kategori_barang,id', // ✅ fix
             'gudang_id' => 'required|exists:gudangs,id',
         ]);
 
@@ -51,7 +51,7 @@ class BarangController extends Controller
 
     public function update(Request $request, $id)
     {
-        if ($request->user()->role !== 'admin') {
+        if (!in_array($request->user()->role, ['admin', 'pegawai'])) {
             return response(['message' => 'Forbidden'], 403);
         }
 
@@ -66,8 +66,9 @@ class BarangController extends Controller
             'deskripsi' => 'nullable|string',
             'stok' => 'required|integer',
             'harga' => 'required|numeric',
-            'kategori_barang_id' => 'required|exists:kategori_barang,id',
+            'kategori_barang_id' => 'required|exists:kategori_barang,id', 
             'gudang_id' => 'required|exists:gudangs,id',
+            
         ]);
 
         $barang->update($validated);
@@ -77,7 +78,7 @@ class BarangController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        if ($request->user()->role !== 'admin') {
+        if (!in_array($request->user()->role, ['admin', 'pegawai'])) {
             return response(['message' => 'Forbidden'], 403);
         }
 
@@ -114,13 +115,13 @@ class BarangController extends Controller
         ]);
     }
 
-   public function stokTipis()
-{
-    $barangStokTipis = Barang::where('stok', '<', 5)->get();
+    public function stokTipis()
+    {
+        $barangStokTipis = Barang::where('stok', '<', 5)->get();
 
-    return response()->json([
-        'status' => true,
-        'data' => $barangStokTipis,
-    ]);
-}
+        return response()->json([
+            'status' => true,
+            'data' => $barangStokTipis,
+        ]);
+    }
 }

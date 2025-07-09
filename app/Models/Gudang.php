@@ -9,6 +9,8 @@ class Gudang extends Model
 {
     use HasFactory;
 
+    protected $table = 'gudangs'; // ✅ WAJIB: Sesuai nama tabel di database
+
     protected $fillable = [
         'nama',
         'lokasi',

@@ -7,13 +7,11 @@ use Illuminate\Http\Request;
 
 class KategoriBarangController extends Controller
 {
-    // Middleware auth di constructor (boleh pakai ini)
     public function __construct()
     {
         $this->middleware('auth:api');
     }
 
-    // GET: /api/kategori-barang
     public function index()
     {
         return response([
@@ -21,10 +19,9 @@ class KategoriBarangController extends Controller
         ], 200);
     }
 
-    // POST: /api/kategori-barang
     public function store(Request $request)
     {
-        if ($request->user()->role !== 'admin') {
+        if (!in_array($request->user()->role, ['admin', 'pegawai'])) {
             return response(['message' => 'Forbidden'], 403);
         }
 
@@ -41,7 +38,6 @@ class KategoriBarangController extends Controller
         ], 201);
     }
 
-    // GET: /api/kategori-barang/{id}
     public function show($id)
     {
         $kategori = KategoriBarang::find($id);
@@ -53,10 +49,9 @@ class KategoriBarangController extends Controller
         return response(['data' => $kategori], 200);
     }
 
-    // PUT/PATCH: /api/kategori-barang/{id}
     public function update(Request $request, $id)
     {
-        if ($request->user()->role !== 'admin') {
+        if (!in_array($request->user()->role, ['admin', 'pegawai'])) {
             return response(['message' => 'Forbidden'], 403);
         }
 
@@ -79,10 +74,9 @@ class KategoriBarangController extends Controller
         ], 200);
     }
 
-    // DELETE: /api/kategori-barang/{id}
     public function destroy(Request $request, $id)
     {
-        if ($request->user()->role !== 'admin') {
+        if (!in_array($request->user()->role, ['admin', 'pegawai'])) {
             return response(['message' => 'Forbidden'], 403);
         }
 

@@ -23,7 +23,7 @@ class KategoriMakananController extends Controller
     // POST: /api/kategori-makanan
     public function store(Request $request)
     {
-        if ($request->user()->role !== 'admin') {
+        if (!in_array($request->user()->role, ['admin', 'pegawai'])) {
             return response(['message' => 'Forbidden'], 403);
         }
 
@@ -55,7 +55,7 @@ class KategoriMakananController extends Controller
     // PUT/PATCH: /api/kategori-makanan/{id}
     public function update(Request $request, $id)
     {
-        if ($request->user()->role !== 'admin') {
+        if (!in_array($request->user()->role, ['admin', 'pegawai'])) {
             return response(['message' => 'Forbidden'], 403);
         }
 
@@ -81,7 +81,7 @@ class KategoriMakananController extends Controller
     // DELETE: /api/kategori-makanan/{id}
     public function destroy(Request $request, $id)
     {
-        if ($request->user()->role !== 'admin') {
+        if (!in_array($request->user()->role, ['admin', 'pegawai'])) {
             return response(['message' => 'Forbidden'], 403);
         }
 
