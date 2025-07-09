@@ -52,7 +52,8 @@ class BarangKeluarController extends Controller
     $request->validate([
         'barang_id' => 'required|exists:barang,id',
         'jumlah' => 'required|integer|min:1',
-        'harga' => 'required|numeric|min:0'
+        'harga' => 'required|numeric|min:0',
+        'keterangan' => 'nullable|string',
     ]);
 
     $barang = Barang::findOrFail($request->barang_id);
@@ -68,25 +69,20 @@ class BarangKeluarController extends Controller
     $barang->stok -= $request->jumlah;
     $barang->save();
 
-    // Update barang keluar
     $barangKeluar->barang_id = $request->barang_id;
     $barangKeluar->jumlah = $request->jumlah;
     $barangKeluar->harga = $request->harga;
+    $barangKeluar->keterangan = $request->keterangan; 
     $barangKeluar->save();
 
     return response()->json([
         'message' => 'Barang keluar berhasil diupdate.',
         'data' => $barangKeluar
-    ]);
-}
+        ]);
+    }
 
 
-    //public function update(Request $request, BarangKeluar $barangKeluar)
-    //{
-        // Opsional: Biasanya barang keluar tidak di-update,
-        // tapi kalau mau bisa aktifkan logika ini.
-        //return response()->json(['message' => 'Update barang keluar belum diimplementasikan.'], 501);
-    //}
+
 
     public function destroy(BarangKeluar $barangKeluar)
     {
