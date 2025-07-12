@@ -5,6 +5,10 @@
 
     RewriteEngine On
 
+    # ✅ ALLOW PUBLIC STORAGE FOLDER
+    # Jika URL diawali /storage/, jangan diteruskan ke index.php
+    RewriteCond %{REQUEST_URI} ^/storage/ - [L]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

@@ -12,11 +12,19 @@ class BarangController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function index()
+  public function index()
     {
         $barang = Barang::with(['kategoriBarang', 'gudang'])->get();
+
+        // Tambah URL gambar
+        $barang->transform(function ($item) {
+            $item->gambar_url = $item->gambar ? asset('storage/' . $item->gambar) : null;
+            return $item;
+        });
+
         return response()->json($barang);
     }
+
 
     public function store(Request $request)
     {
@@ -45,6 +53,8 @@ class BarangController extends Controller
         if (!$barang) {
             return response()->json(['message' => 'Not Found'], 404);
         }
+
+        $barang->gambar_url = $barang->gambar ? asset('storage/' . $barang->gambar) : null;
 
         return response()->json($barang);
     }
