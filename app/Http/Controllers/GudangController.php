@@ -27,6 +27,8 @@ class GudangController extends Controller
             'nama' => 'required|string',
             'lokasi' => 'nullable|string',
             'deskripsi' => 'nullable|string',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
         ]);
 
         $gudang = Gudang::create($validated);
@@ -58,6 +60,8 @@ class GudangController extends Controller
             'nama' => 'required|string',
             'lokasi' => 'nullable|string',
             'deskripsi' => 'nullable|string',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
         ]);
 
         $gudang->update($validated);

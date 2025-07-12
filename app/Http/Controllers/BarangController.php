@@ -37,7 +37,7 @@ class BarangController extends Controller
             'deskripsi' => 'nullable|string',
             'stok' => 'required|integer',
             'harga' => 'required|numeric',
-            'kategori_barang_id' => 'required|exists:kategori_barang,id', // ✅ fix
+            'kategori_barang_id' => 'required|exists:kategori_barang,id',
             'gudang_id' => 'required|exists:gudangs,id',
         ]);
 
