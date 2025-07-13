@@ -9,12 +9,21 @@ class Makanan extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'nama',
-        'deskripsi',
-        'harga',
-        'kategori_makanan_id',
-    ];
+   protected $fillable = [
+    'nama',
+    'deskripsi',
+    'harga',
+    'kategori_makanan_id',
+    'gambar', 
+];
+
+protected $appends = ['gambar_url'];
+
+public function getGambarUrlAttribute()
+{
+    return $this->gambar ? asset('storage/' . $this->gambar) : null;
+}
+
 
     public function kategoriMakanan()
     {

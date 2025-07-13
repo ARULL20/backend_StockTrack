@@ -12,7 +12,8 @@ return new class extends Migration {
             $table->string('nama');
             $table->text('deskripsi')->nullable();
             $table->decimal('harga', 15, 2)->default(0);
-            $table->unsignedBigInteger('kategori_makanan_id'); // relasi ke kategori_makanan
+            $table->unsignedBigInteger('kategori_makanan_id'); 
+            $table->string('gambar')->nullable();
             $table->timestamps();
 
             $table->foreign('kategori_makanan_id')->references('id')->on('kategori_makanan')->onDelete('cascade');

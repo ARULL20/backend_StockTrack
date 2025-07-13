@@ -34,7 +34,10 @@ Route::middleware(['auth:api'])->group(function () {
     Route::apiResource('/minuman', MinumanController::class);
     Route::apiResource('/barang-keluar', BarangKeluarController::class);
     Route::post('/barang/{id}/upload-gambar', [BarangController::class, 'uploadGambar']);
+    Route::post('/makanan/{id}/upload-gambar', [MakananController::class, 'uploadGambar']);
+    Route::post('/minuman/{id}/upload-gambar', [MinumanController::class, 'uploadGambar']);
 });
+
 
 // KHUSUS ADMIN
 Route::middleware(['auth:api', 'role:admin'])->prefix('laporan')->group(function () {

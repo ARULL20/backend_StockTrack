@@ -16,7 +16,15 @@ class Minuman extends Model
         'deskripsi',
         'harga',
         'kategori_minuman_id',
+        'gambar',
     ];
+
+    protected $appends = ['gambar_url'];
+
+    public function getGambarUrlAttribute()
+    {
+        return $this->gambar ? asset('storage/' . $this->gambar) : null;
+    }
 
     public function kategoriMinuman()
     {

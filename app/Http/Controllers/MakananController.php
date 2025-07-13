@@ -8,10 +8,14 @@ use Illuminate\Http\Request;
 class MakananController extends Controller
 {
     public function index()
-    {
-        return response()->json(Makanan::with('kategoriMakanan')->get());
-    }
-
+{
+    $makanan = Makanan::with('kategoriMakanan')->get();
+    $makanan->transform(function ($item) {
+        $item->gambar_url = $item->gambar ? asset('storage/' . $item->gambar) : null;
+        return $item;
+    });
+    return response()->json($makanan);
+}
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -26,11 +30,12 @@ class MakananController extends Controller
         return response()->json($makanan, 201);
     }
 
-    public function show(Makanan $makanan)
+   public function show(Makanan $makanan)
     {
-        return response()->json($makanan->load('kategoriMakanan'));
+    $makanan->load('kategoriMakanan');
+    $makanan->gambar_url = $makanan->gambar ? asset('storage/' . $makanan->gambar) : null;
+    return response()->json($makanan);
     }
-
     public function update(Request $request, Makanan $makanan)
     {
         $validated = $request->validate([
@@ -51,4 +56,27 @@ class MakananController extends Controller
 
         return response()->json(['message' => 'Makanan deleted successfully']);
     }
+
+    public function uploadGambar(Request $request, $id)
+{
+    $request->validate([
+        'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+    ]);
+
+    $makanan = Makanan::findOrFail($id);
+
+    if ($request->hasFile('gambar')) {
+        $file = $request->file('gambar');
+        $path = $file->store('gambar_makanan', 'public');
+
+        $makanan->gambar = $path;
+        $makanan->save();
+    }
+
+    return response()->json([
+        'message' => 'Gambar makanan berhasil diupload.',
+        'data' => $makanan
+    ]);
+}
+
 }
